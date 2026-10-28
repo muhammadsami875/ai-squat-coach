@@ -1,0 +1,11 @@
+{
+  "name": "ai-squat-coach",
+  "version": "1.0.0",
+  "description": "Browser-based AI squat coach: pose tracking, rep counting and form feedback (MediaPipe).",
+  "type": "module",
+  "scripts": {
+    "start": "python -m http.server 8000",
+    "test": "node test-logic.mjs"
+  },
+  "license": "MIT"
+}

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AI Squat Coach</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="layout">
+    <!-- LEFT: camera -->
+    <section class="stage">
+      <div class="video-wrap" id="videoWrap">
+        <video id="video" playsinline muted></video>
+        <canvas id="overlay"></canvas>
+        <div class="badge">SIDE VIEW</div>
+        <div class="status" id="statusMsg">Start dabayein aur camera ko side-on rakhein</div>
+        <div class="cue" id="cue"></div>
+      </div>
+
+      <div class="controls">
+        <button id="startBtn" class="primary">Start camera</button>
+        <button id="stopBtn" disabled>Stop</button>
+        <button id="resetBtn">Reset</button>
+        <label>Target reps
+          <select id="targetSel">
+            <option>3</option><option selected>5</option><option>8</option><option>10</option><option>12</option>
+          </select>
+        </label>
+        <label class="chk"><input type="checkbox" id="voiceChk" checked /> Voice</label>
+        <label class="file">Test with video file
+          <input type="file" id="fileInput" accept="video/*" />
+        </label>
+      </div>
+      <p class="tip">Tip: camera ko kamar ki height par rakhein, poora body (sar se pair tak) side se nazar aaye. Pehle seedha khade ho jayein, phir squat shuru karein.</p>
+    </section>
+
+    <!-- RIGHT: dashboard -->
+    <section class="dash">
+      <header class="top">
+        <div class="title"><span class="dot"></span>AI SQUAT COACH</div>
+        <div class="live off" id="live"><span class="rec"></span><span id="liveText">STOPPED 00:00</span></div>
+      </header>
+
+      <div class="cards3">
+        <div class="card">
+          <div class="label">CLEAN REPS</div>
+          <div class="reps-line"><span class="big" id="cleanNum">0</span><span class="of" id="cleanOf">/ 5</span></div>
+          <div class="dots" id="dots"></div>
+        </div>
+
+        <div class="card">
+          <div class="label">FORM SCORE</div>
+          <div class="ring-wrap">
+            <svg viewBox="0 0 80 80" class="ring">
+              <circle cx="40" cy="40" r="34" class="ring-bg" />
+              <circle cx="40" cy="40" r="34" class="ring-fg" id="ringFg" />
+            </svg>
+            <div class="ring-num" id="scoreNum">—</div>
+          </div>
+          <div class="sub">avg / 100</div>
+        </div>
+
+        <div class="card">
+          <div class="label">DEPTH <span class="target" id="depthTarget">target ≤100°</span></div>
+          <svg viewBox="0 0 120 70" class="gauge">
+            <path id="gBg" class="g-bg" />
+            <path id="gOk" class="g-ok" />
+            <line id="needle" class="needle" x1="60" y1="60" x2="60" y2="22" />
+            <circle cx="60" cy="60" r="4" class="hub" />
+          </svg>
+          <div class="gauge-val" id="depthVal">--°</div>
+        </div>
+      </div>
+
+      <div class="card chart-card">
+        <div class="label">Knee angle <span class="legend"><i class="lg good"></i>good rep <i class="lg bad"></i>no rep</span></div>
+        <canvas id="chart"></canvas>
+      </div>
+
+      <div class="card">
+        <div class="label">Rep breakdown <span class="target" id="avgLower">avg lowering —</span></div>
+        <div class="rep-grid" id="repGrid"></div>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    // Agar file ko double-click karke khola hai to camera/modules kaam nahi karenge.
+    if (location.protocol === 'file:') {
+      document.getElementById('statusMsg').textContent =
+        '⚠ Is page ko VS Code ke Live Server ya "python -m http.server 8000" se kholein (double-click se nahi).';
+    }
+  </script>
+  <script type="module" src="app.js"></script>
+</body>
+</html>
